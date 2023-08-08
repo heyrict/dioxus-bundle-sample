@@ -1,0 +1,42 @@
+name: Main workflow
+on:
+  push: {}
+  pull_request: {}
+jobs:
+  build:
+    name: Compile & Release
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - x86_64-pc-windows-msvc
+        include:
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            name: dioxus-bundle-sample-x86_64-pc-windows-msvc.zip
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup | Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: nightly
+          target: ${{ matrix.target }}
+
+      - name: Install dioxus-cli [Windows]
+        run: cargo install dioxus-cli
+
+      - name: Build target [Windows]
+        run: dx bundle --release --platform desktop
+
+      - name: Prepare build artifacts [Windows]
+        run: |
+          7z a ${{ matrix.name }} dist\bundle
+
+      - name: Release | Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ matrix.name }}
