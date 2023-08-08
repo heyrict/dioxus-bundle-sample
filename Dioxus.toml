@@ -54,7 +54,7 @@ identifier = "com.heyrict.dioxus-bundle-sample"
 publisher = "heyrict"
 
 # Bundle icon
-icon = "assets/icon.ico"
+icon = ["assets/icon.ico"]
 
 # Bundle resources
 resources = ["assets/*"]
