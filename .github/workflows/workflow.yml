@@ -15,7 +15,6 @@ jobs:
             os: windows-latest
             name: dioxus-bundle-sample-x86_64-pc-windows-msvc.zip
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
 
@@ -24,6 +23,20 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+
+      - name: Setup | 7zip [Windows]
+        if: matrix.os == 'windows-latest'
+        uses: crazy-max/ghaction-chocolatey@v2
+        with:
+          args: install wget 7zip.portable
+
+      - name: Fetch webview2 runtime [Windows]
+        if: matrix.os == 'windows-latest'
+        run: |
+          wget 'https://github.com/westinyang/WebView2RuntimeArchive/releases/download/109.0.1518.78/Microsoft.WebView2.FixedVersionRuntime.109.0.1518.78.x64.cab'
+          7z x 'Microsoft.WebView2.FixedVersionRuntime.109.0.1518.78.x64.cab'
+          mkdir -p packages/
+          mv 'Microsoft.WebView2.FixedVersionRuntime.109.0.1518.78.x64' packages/webview2
 
       - uses: Swatinem/rust-cache@v2
 

@@ -67,6 +67,6 @@ short_description = "Dioxus"
 
 [bundle.windows]
 allow_downgrades = true
-webview_install_mode = { OfflineInstaller = { silent = false } }
+webview_install_mode = { FixedRuntime = { path = "packages/webview2" } }
 tsp = true
 icon_path = "assets/icon.ico"
