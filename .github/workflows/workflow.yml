@@ -22,11 +22,14 @@ jobs:
       - name: Setup | Rust
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: nightly
+          toolchain: stable
           target: ${{ matrix.target }}
 
       - name: Install dioxus-cli [Windows]
-        run: cargo install dioxus-cli
+        run: cargo install --git https://github.com/heyrict/dioxus.git --branch windows-bootstrap --path packages/cli
+
+      - name: Format-print config
+        run: dx config format-print
 
       - name: Build target [Windows]
         run: dx bundle --release --platform desktop
