@@ -26,7 +26,7 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Install dioxus-cli [Windows]
-        run: cargo install --git https://github.com/heyrict/dioxus.git --branch windows-bootstrap --path packages/cli
+        run: cargo install --git https://github.com/heyrict/dioxus.git --branch windows-bootstrap --bin dioxus-cli
 
       - name: Format-print config
         run: dx config format-print
