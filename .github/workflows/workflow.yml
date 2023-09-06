@@ -25,6 +25,8 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
 
+      - uses: Swatinem/rust-cache@v2
+
       - name: Install dioxus-cli [Windows]
         run: |
           git clone https://github.com/heyrict/dioxus --branch windows-bootstrap --depth=1
